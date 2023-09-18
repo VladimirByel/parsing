@@ -2,6 +2,10 @@ import json
 import xlsxwriter
 from abc import ABC, abstractmethod
 
+"""
+The abstract class for getting information in and out of JSON-files
+"""
+
 
 class File(ABC):
 
@@ -25,18 +29,18 @@ class JSONFile(File):
 
     @classmethod
     def super_job_writing(cls, object_to_write):
-        with open('superjob_vacancies.json', 'a') as file:
+        with open('superjob_vacancies.json', 'a', encoding='UTF-8') as file:
             json.dump(object_to_write, file, indent=4)
 
     @classmethod
     def hh_reading(cls):
-        with open('hh_vacancies.json', 'r') as file:
-            return json.load(file)
+        with open('hh_vacancies.json', 'r', encoding='UTF-8') as file:
+            return json.loads(file.read())
 
     @classmethod
     def super_reading(cls):
-        with open('superjob_vacancies.json', 'r') as file:
-            return json.load(file)
+        with open('superjob_vacancies.json', 'r', encoding='UTF-8') as file:
+            return json.loads(file.read())
 
     @classmethod
     def excel(cls, data):

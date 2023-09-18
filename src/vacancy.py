@@ -1,4 +1,9 @@
 
+"""
+The class for processing vacancies
+"""
+
+
 class Vacancy:
 
     def __init__(self, profession, requirements, city, employer, salary=0):
@@ -21,6 +26,34 @@ class Vacancy:
     def __repr__(self):
         return f"{self.minimal_salary}"
 
+    @staticmethod
+    def hh_error_filtering(basis):
+        vacancies_list = []
+        for one in basis["items"]:
+            try:
+                vacancies_list.append(Vacancy(one['name'], one['snippet']['requirement'],
+                                              one['area']['name'], one['employer']['name'], one['salary']['from']))
+            except TypeError:
+                vacancies_list.append(Vacancy(one['name'], one['snippet']['requirement'],
+                                              one['area']['name'], one['employer']['name'], 0))
+        return sorted(vacancies_list, reverse=True)
+
+    @staticmethod
+    def super_job_error_filtering(basis):
+        vacancies_list = []
+        for one in basis['objects']:
+            try:
+                try:
+                    vacancies_list.append(Vacancy(one['profession'], one['vacancyRichText'],
+                                                  one['town']['title'], one['client']['title'], one['payment_from']))
+                except KeyError:
+                    vacancies_list.append(Vacancy(one['profession'], one['vacancyRichText'],
+                                                  one['town']['title'], "Работодатель неизвестен", one['payment_from']))
+            except TypeError:
+                vacancies_list.append(Vacancy(one['profession'], one['vacancyRichText'],
+                                              one['town']['title'], one['client']['title'], 0))
+        return vacancies_list
+
     def comparison(self, other):
         try:
             self.minimal_salary - other.minimal_salary
@@ -41,7 +74,3 @@ class Vacancy:
 
     def __add__(self, other):
         return self.minimal_salary + other.minimal_salary
-
-
-
-
