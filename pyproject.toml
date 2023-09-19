@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "parsing"
+version = "0.1.0"
+description = "It is a project for finding vacancies with the keyword you are supposed to type in on HeadHunter and SuperJob"
+authors = ["Vladimir Byelov <vladimir.byeloff@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
