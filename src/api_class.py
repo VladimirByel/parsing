@@ -67,7 +67,6 @@ class APISuperJob(APIProcessing):
     def __init__(self, url, text):
         self.url = url
         self.key: str = config.KEY
-        # self.key = "v3.r.137820686.bb7cea71565ef2c0772ec7a3222fa8271ef68e3d.902b5431bf9b023b53a3fce279bbed18d04ba9b0"
         self.text = text
 
     def getting_info(self):

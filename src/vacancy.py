@@ -8,11 +8,10 @@ class Vacancy:
 
     def __init__(self, profession, requirements, city, employer, salary=0):
         self.profession = profession
-        self.minimal_salary = salary
-        try:
-            self.minimal_salary < 9
-        except TypeError:
+        if salary is None:
             self.minimal_salary = 0
+        else:
+            self.minimal_salary = salary
         self.requirements = requirements
         self.city = city
         self.employer = employer
@@ -30,10 +29,10 @@ class Vacancy:
     def hh_error_filtering(basis):
         vacancies_list = []
         for one in basis["items"]:
-            try:
+            if one.get('salary'):
                 vacancies_list.append(Vacancy(one['name'], one['snippet']['requirement'],
                                               one['area']['name'], one['employer']['name'], one['salary']['from']))
-            except TypeError:
+            else:
                 vacancies_list.append(Vacancy(one['name'], one['snippet']['requirement'],
                                               one['area']['name'], one['employer']['name'], 0))
         return sorted(vacancies_list, reverse=True)
@@ -42,14 +41,15 @@ class Vacancy:
     def super_job_error_filtering(basis):
         vacancies_list = []
         for one in basis['objects']:
-            try:
-                try:
+        #for one in basis:
+            if one.get('payment_from'):
+                if one['client'].get('title'):
                     vacancies_list.append(Vacancy(one['profession'], one['vacancyRichText'],
                                                   one['town']['title'], one['client']['title'], one['payment_from']))
-                except KeyError:
+                else:
                     vacancies_list.append(Vacancy(one['profession'], one['vacancyRichText'],
-                                                  one['town']['title'], "Работодатель неизвестен", one['payment_from']))
-            except TypeError:
+                                                  one['town']['title'], "неизвестен", one['payment_from']))
+            else:
                 vacancies_list.append(Vacancy(one['profession'], one['vacancyRichText'],
                                               one['town']['title'], one['client']['title'], 0))
         return sorted(vacancies_list, reverse=True)
