@@ -1,7 +1,7 @@
 from src.api_class import APIhh, APISuperJob
 from src.file_creating import JSONFile
 from src.vacancy import Vacancy
-from src.config import URL, HH
+from src.config import URL, HH, HH_PATH, SUPER_JOB_PATH
 """
 The main function to control and regulate all code
 """
@@ -10,10 +10,9 @@ The main function to control and regulate all code
 def hh(choice):
     hh_ = APIhh(HH, choice)
     get_hh_info = hh_.getting_info()
-    hh_json = JSONFile("hh_vacancies.json")
+    hh_json = JSONFile(HH_PATH)
     hh_json.writing(get_hh_info)
     hh_basis = hh_json.reading()
-    # hh_basis = JSONFile.hh_reading()
     hh_jobs = Vacancy.hh_error_filtering(hh_basis, "HH")
     for job in hh_jobs:
         if choice.lower() in job.profession.lower():
@@ -24,10 +23,9 @@ def hh(choice):
 def superjob(choice):
     super_job = APISuperJob(URL, choice)
     get_super_job_info = super_job.getting_info()
-    super_json = JSONFile("superjob_vacancies.json")
+    super_json = JSONFile(SUPER_JOB_PATH)
     super_json.writing(get_super_job_info)
     super_job_basis = super_json.reading()
-    # super_job_basis = JSONFile.super_reading()
     super_jobs = Vacancy.super_job_error_filtering(super_job_basis, "SJ")
     for s_job in super_jobs:
         if choice.lower() in s_job.profession.lower():
@@ -59,4 +57,3 @@ def choose():
 
 
 choose()
-

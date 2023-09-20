@@ -1,7 +1,5 @@
 import json
 import os
-
-import xlsxwriter
 from abc import ABC, abstractmethod
 
 """
@@ -33,7 +31,7 @@ class JSONFile(File):
 
     def reading(self):
         with open(self.path, 'r', encoding='UTF-8') as file:
-            #print(json.loads(file.read()))
+            print(json.loads(file.read()))
             return json.loads(file.read())
 
     def deleting(self):
