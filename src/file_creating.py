@@ -1,4 +1,6 @@
 import json
+import os
+
 import xlsxwriter
 from abc import ABC, abstractmethod
 
@@ -8,39 +10,33 @@ The abstract class for getting information in and out of JSON-files
 
 
 class File(ABC):
+    def __init__(self, path):
+        self.path = path
 
-    @classmethod
     @abstractmethod
-    def hh_writing(cls, object_to_write):
+    def writing(self, object_to_write):
         pass
 
-    @classmethod
     @abstractmethod
-    def super_job_writing(cls, object_to_write):
+    def reading(self):
+        pass
+
+    @abstractmethod
+    def deleting(self):
         pass
 
 
 class JSONFile(File):
+    def writing(self, object_to_write):
+        with open(self.path, 'a', encoding='UTF-8', ) as file:
+            json.dump(object_to_write, file, indent=4, ensure_ascii=False)
 
-    @classmethod
-    def hh_writing(cls, object_to_write):
-        with open('hh_vacancies.json', 'a', encoding='UTF-8') as file:
-            json.dump(object_to_write, file, indent=4)
-
-    @classmethod
-    def super_job_writing(cls, object_to_write):
-        with open('superjob_vacancies.json', 'a', encoding='UTF-8') as file:
-            json.dump(object_to_write, file, indent=4)
-
-    @classmethod
-    def hh_reading(cls):
-        with open('hh_vacancies.json', 'r', encoding='UTF-8') as file:
+    def reading(self):
+        with open(self.path, 'r', encoding='UTF-8') as file:
             return json.loads(file.read())
 
-    @classmethod
-    def super_reading(cls):
-        with open('superjob_vacancies.json', 'r', encoding='UTF-8') as file:
-            return json.loads(file.read())
+    def deleting(self):
+        os.remove(self.path)
 
     @classmethod
     def excel(cls, data):

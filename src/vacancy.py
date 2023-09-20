@@ -52,7 +52,7 @@ class Vacancy:
             except TypeError:
                 vacancies_list.append(Vacancy(one['profession'], one['vacancyRichText'],
                                               one['town']['title'], one['client']['title'], 0))
-        return vacancies_list
+        return sorted(vacancies_list, reverse=True)
 
     def comparison(self, other):
         try:
