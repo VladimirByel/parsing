@@ -14,14 +14,10 @@ def hh(choice):
     hh_json.writing(get_hh_info)
     hh_basis = hh_json.reading()
     # hh_basis = JSONFile.hh_reading()
-    hh_jobs = Vacancy.hh_error_filtering(hh_basis)
+    hh_jobs = Vacancy.hh_error_filtering(hh_basis, "HH")
     for job in hh_jobs:
         if choice.lower() in job.profession.lower():
-            print(f"""HH: Профессия: {job.profession}
-    Минимальная зарплата: {job.minimal_salary}
-    Город: {job.city}
-    Требования: {job.requirements}
-    Работодатель: {job.employer}""")
+            print(job)
     hh_json.deleting()
 
 
@@ -32,14 +28,10 @@ def superjob(choice):
     super_json.writing(get_super_job_info)
     super_job_basis = super_json.reading()
     # super_job_basis = JSONFile.super_reading()
-    super_jobs = Vacancy.super_job_error_filtering(super_job_basis)
+    super_jobs = Vacancy.super_job_error_filtering(super_job_basis, "SJ")
     for s_job in super_jobs:
         if choice.lower() in s_job.profession.lower():
-            print(f"""SJ: Профессия: {s_job.profession}
-    Минимальная зарплата: {s_job.minimal_salary}
-    Город: {s_job.city}
-    Требования: {s_job.requirements}
-    Работодатель: {s_job.employer}""")
+            print(s_job)
     super_json.deleting()
 
 

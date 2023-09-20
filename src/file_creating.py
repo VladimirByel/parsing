@@ -36,15 +36,5 @@ class JSONFile(File):
             #print(json.loads(file.read()))
             return json.loads(file.read())
 
-    @classmethod
-    def hh_reading(cls):
-        with open('hh_vacancies.json', 'r', encoding='UTF-8') as file:
-            return json.loads(file.read())
-
-    @classmethod
-    def super_reading(cls):
-        with open('superjob_vacancies.json', 'r', encoding='UTF-8') as file:
-            return json.loads(file.read())
-
     def deleting(self):
         os.remove(self.path)
