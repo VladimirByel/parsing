@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import requests
+import config
 """
 Abstract function for API classes
 """
@@ -44,8 +45,9 @@ class APIhh(APIProcessing):
                 "text": self.text
             }
             response = requests.request("GET", self.url, headers=headers, data=payload, params=params)
-            vacancies.extend(response.json()['items'])
-            if response.json()["pages"] - 1 == page:
+            json_response = response.json()
+            vacancies.extend(json_response['items'])
+            if json_response["pages"] - 1 == page:
                 break
         return {
             "items": vacancies
@@ -64,7 +66,7 @@ class APISuperJob(APIProcessing):
 
     def __init__(self, url, text):
         self.url = url
-        self.key = "v3.r.137820686.bb7cea71565ef2c0772ec7a3222fa8271ef68e3d.902b5431bf9b023b53a3fce279bbed18d04ba9b0"
+        self.key: str = config.KEY
         self.text = text
 
     def getting_info(self):
@@ -80,8 +82,9 @@ class APISuperJob(APIProcessing):
                 "text": self.text
             }
             response = requests.request("GET", self.url, headers=headers, data=payload, params=params)
-            vacancies.extend(response.json()['objects'])
-            if response.json()["total"] - 1 == page:
+            json_response = response.json()
+            vacancies.extend(json_response['objects'])
+            if json_response["total"] - 1 == page:
                 break
         return {
             "objects": vacancies
